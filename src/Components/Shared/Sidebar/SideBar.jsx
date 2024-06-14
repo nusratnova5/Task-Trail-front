@@ -14,8 +14,7 @@ const SideBar = ({ isOpenSidebar, toggleSidebar }) => {
                         </div>
                     </li>
                     <li><Link onClick={toggleSidebar} to={'/dashboard'}>Dashboard</Link></li>
-                    <li><Link onClick={toggleSidebar} to={'/dashboard/all-products'}>All Tasks</Link></li>
-                    <li><Link onClick={toggleSidebar} to='/dashboard/add-task'>Add Task</Link></li>
+                    <li><Link onClick={toggleSidebar} to='/dashboard/add-task'>Create Task</Link></li>
                 </ul>
 
             </div>

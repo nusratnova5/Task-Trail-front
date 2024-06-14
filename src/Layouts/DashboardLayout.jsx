@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import SideBar from '../Components/Shared/Sidebar/SideBar';
+import DashboardHeader from '../Components/Shared/DashboardHeader';
 
 const DashboardLayout = () => {
   const [isOpenSidebar, setIsOpenIsdebar] = useState(false);
@@ -11,6 +12,7 @@ const DashboardLayout = () => {
         <div>
           <div className='h-screen overflow-hidden flex flex-col'>
             {/* <DashboardHeader toggleSidebar={toggleSidebar} isOpenSidebar={isOpenSidebar}></DashboardHeader> */}
+            <DashboardHeader toggleSidebar={toggleSidebar} isOpenSidebar= {isOpenSidebar}></DashboardHeader>
             <div className='flex flex-1 overflow-hidden'>
                 <div >
                     <SideBar toggleSidebar={toggleSidebar} isOpenSidebar={isOpenSidebar} />

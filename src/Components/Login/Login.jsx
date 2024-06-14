@@ -84,8 +84,8 @@ const Login = () => {
       <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="text-center lg:text-left">
-          <h1 className="text-5xl font-bold">Login now!</h1>
-          <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+          {/* <h1 className="text-5xl font-bold">Login now!</h1> */}
+          {/* <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p> */}
         </div>
         <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
           <form onSubmit={handleSignIn} className="card-body">
@@ -109,10 +109,10 @@ const Login = () => {
             </div>
           </form>
           <div className="form-control mx-7 mb-3 ">
-                            <button onClick={handleGoogleLogin} className="btn bg-purple-400 hover:bg-stone-700 text-dark font-bold">Google</button>
+                            <button onClick={handleGoogleLogin} className="btn bg-teal-900 text-white hover:bg-stone-700 text-dark font-bold">Google</button>
                         </div>
           <div className='mx-7 mb-3'>
-                            <p>Don't have any account? <Link to={'/register'} className='text-purple-900 font-bold'>Click here </Link>to register.</p>
+                            <p>Don't have any account? <Link to={'/register'} className='text-teal-900 font-bold'>Click here </Link>to register.</p>
           </div>
         </div>
       </div>

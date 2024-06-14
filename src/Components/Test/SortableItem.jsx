@@ -24,7 +24,8 @@ const SortableItem = ({ id, item, isActive }) => {
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      {item.title}
+      <h2 className='font-bold text-teal-900'>{item.title}</h2>
+      <p>{item.description}</p>
     </div>
   );
 };
