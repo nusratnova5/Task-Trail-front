@@ -1,30 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import OngoingSingleTask from './OngoingSingleTask'
+import axios from 'axios';
 
 const OngoingTask = () => {
+    const [tasks, setTasks] = useState([]);
+
+    useEffect(() => {
+        fetchTasks();
+    }, []);
+
+    const fetchTasks = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/tasks');
+            setTasks(response.data);
+        } catch (error) {
+            console.error('Error fetching tasks:', error);
+            throw error; // Rethrow the error to handle it outside
+        }
+    }
+
     return (
         <>
-       <h1 className='text-center text-3xl font-bold'>Ongoing task</h1>
-        <div className='bg-teal-900 rounded-lg py-2 mt-3'>
-            <div className="card bg-gray-200 text-dark m-5">
-                <div className="card-body">
-                    <h2 className="card-title">Card title!</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <div className="card-actions justify-end">
-                        <button className="btn bg-white">Complete</button>
-                    </div>
-                </div>
-            </div>
-            <div className="card bg-gray-200 text-dark m-5">
-                <div className="card-body">
-                    <h2 className="card-title">Card title!</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <div className="card-actions justify-end">
-                        <button className="btn bg-white">Complete</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-       </>
+             <h1 className='text-center text-3xl font-bold'>To-Do</h1>
+             <div className='bg-teal-900 rounded-lg py-2'>
+             {tasks?.map(task => (
+                <OngoingSingleTask propTask={task} allTasks={tasks} setTasks={setTasks} key={task._id} />
+            ))}
+             </div>
+            
+        </>
     );
 };
 

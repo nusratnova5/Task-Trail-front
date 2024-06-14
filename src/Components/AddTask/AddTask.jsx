@@ -1,12 +1,57 @@
+import axios from 'axios';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
 
 const AddTask = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => console.log(data);
+    const addtask = async (data) => {
+        const { title,description,deadline,priority } = data;
+
+        const requestBody = {
+            title: title,
+            description: description,
+            deadline: deadline,
+            priority: priority,
+            status: 1,   
+        };
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Add"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    // const token = localStorage.getItem('token');        
+                    // const config = {
+                    //     headers: {
+                    //         Authorization: `Bearer ${token}`
+                    //     }
+                    // };
+
+                    const response = await axios.post('http://localhost:5000/tasks', requestBody);
+                    console.log('Task created successfully:', response);
+                    if (response.data.acknowledged) {
+                        Swal.fire({
+                            text: "Task added successfully.",
+                            icon: "success"
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error creating task:', error.response ? error.response.data : error.message);
+                }
+            }
+        });
+    }
     return (
         <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(addtask)}>
                 <label className="form-control w-full">
                     <div className="label">
                         <span className="label-text font-bold">Title</span>

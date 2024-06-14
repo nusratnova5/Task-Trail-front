@@ -11,7 +11,7 @@ const Navbar = () => {
     await signOut();
   };
     return (
-        <div className="navbar bg-base-100">
+        <div className="navbar bg-teal-900 mb-5 text-white">
   <div className="navbar-start">
     <div className="dropdown">
       <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -31,9 +31,34 @@ const Navbar = () => {
     </ul>
   </div>
   <div className="navbar-end">
-    <Link to='/register' className="btn">Register</Link>
-    <Link to='/login' className="btn">Login</Link>
-    <Link onClick={handleLogout} className="btn">Logout</Link>
+  {!user?.email ? (
+          <div className="navbar-end flex gap-4">
+            <Link to={"/login"} className="btn bg-white hover:bg-slate-600 text-black border-0">
+              Login
+            </Link>
+            <Link to={"/register"} className="btn bg-white hover:bg-stone-600 text-dark border-0">
+              Registration
+            </Link>
+          </div>
+        ) : (
+          <div className="navbar-end flex items-center gap-4">
+            <div className="dropdown dropdown-end">
+              <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+
+                <img src={user.photoURL} alt="User Avatar" className="rounded-full" />
+
+              </div>
+              <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+              <li><button className="btn bg-transparent border-0 shadow-transparent">
+                  <Link to={'/profile'}>Profile</Link>
+                </button></li>
+                <li><button className="btn bg-transparent border-0 shadow-transparent" onClick={handleLogout}>
+                  Logout
+                </button></li>
+              </ul>
+            </div>
+          </div>
+        )}
   </div>
 </div>
     );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { auth } from '../../Firebase/Firebase.config';
@@ -35,15 +35,15 @@ const Login = () => {
   const location = useLocation();
   let from = location.state?.from?.pathname || "/";
 
-  // useEffect(() => {
-  //     if (user || googleuser) {
-  //         navigate(from, { replace: true });
-  //     }
+  useEffect(() => {
+      if (user || googleuser) {
+          navigate(from, { replace: true });
+      }
 
-  //     if (googleuser) {
-  //         saveGoogleUser(googleuser);
-  //     }
-  // }, [user, loading, navigate, from, googleuser, googleLoading]);
+      // if (googleuser) {
+      //     saveGoogleUser(googleuser);
+      // }
+  }, [user, loading, navigate, from, googleuser, googleLoading]);
 
   // const getToken = async (email) => {
   //     try {

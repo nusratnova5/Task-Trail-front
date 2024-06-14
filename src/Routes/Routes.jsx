@@ -6,6 +6,8 @@ import Dashboard from "../Components/Dashboard/Dashboard";
 import Register from "../Components/Register/Register";
 import Login from "../Components/Login/Login";
 import AddTask from "../Components/AddTask/AddTask";
+import Task from "../Components/Test/Task";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
     {
@@ -28,7 +30,7 @@ export const router = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element: <DashboardLayout/>,
+        element:<PrivateRoute><DashboardLayout/></PrivateRoute> ,
         children: [
             {
                 path: '',
@@ -37,7 +39,11 @@ export const router = createBrowserRouter([
             {
                 path: 'add-task',
                 element: <AddTask/>,
-            }
+            },
+            {
+                path: 'task',
+                element: <Task />,
+            },
         ]
     }
 ]);
