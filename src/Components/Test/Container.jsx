@@ -8,7 +8,7 @@ const Container = ({ id, items, activeItem, fromContainer, toContainer }) => {
   const { setNodeRef } = useDroppable({ id });
 
   return (
-    <div ref={setNodeRef} style={{ margin: '16px', padding: '8px', border: '1px solid #ccc', width: '200px' }}>
+    <div className='bg-gray-200 text-dark m-5 rounded-lg' ref={setNodeRef} style={{ margin: '16px', padding: '8px', border: '1px solid #ccc', width: '200px' }}>
       <SortableContext id={id} items={items.map((item, index) => `${id}:${index}`)} strategy={verticalListSortingStrategy}>
         {items.map((item, index) => (
           <SortableItem

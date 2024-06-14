@@ -11,11 +11,11 @@ import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
     {
-        path: '/register',
+        path: 'register',
         element: <Register/>,
     },
     {
-        path: '/login',
+        path: 'login',
         element: <Login/>,
     },
     {
@@ -29,7 +29,7 @@ export const router = createBrowserRouter([
         ]
     },
     {
-        path: '/dashboard',
+        path: 'dashboard',
         element:<PrivateRoute><DashboardLayout/></PrivateRoute> ,
         children: [
             {

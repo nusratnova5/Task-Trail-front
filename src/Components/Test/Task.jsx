@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useEffect, useState } from 'react';
 import { DndContext, useSensor, useSensors } from '@dnd-kit/core';
 import { MouseSensor, KeyboardSensor } from '@dnd-kit/core';
@@ -6,22 +5,11 @@ import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import Container from './Container';
 import axios from 'axios';
 
-// const initialData = {
-//   container1: [
-//     { id: 'item1', content: 'Item 1' },
-//     { id: 'item2', content: 'Item 2' },
-//     { id: 'item3', content: 'Item 3' },
-//   ],
-//   container2: [
-//     { id: 'item4', content: 'Item 4' },
-//     { id: 'item5', content: 'Item 5' },
-//   ],
-//   container3: [],
-// };
-
 const Task = () => {
   const [data, setData] = useState({});
-
+  const [activeItem, setActiveItem] = useState(null);
+  const [fromContainer, setFromContainer] = useState(null);
+  const [toContainer, setToContainer] = useState(null);
 
   useEffect(() => {
     fetchTasks();
@@ -36,19 +24,12 @@ const Task = () => {
       const onGoingTasks = allTasks.filter(task => task?.status === 2);
       const completedTasks = allTasks.filter(task => task?.status === 3);
 
-      setData({container1: todoTasks, container2: onGoingTasks, container3: completedTasks});
+      setData({ container1: todoTasks, container2: onGoingTasks, container3: completedTasks });
     } catch (error) {
       console.error('Error fetching tasks:', error);
     }
   };
 
-
-
-
-  
-  const [activeItem, setActiveItem] = useState(null);
-  const [fromContainer, setFromContainer] = useState(null);
-  const [toContainer, setToContainer] = useState(null);
   const sensors = useSensors(
     useSensor(MouseSensor),
     useSensor(KeyboardSensor, {
@@ -71,7 +52,6 @@ const Task = () => {
   };
 
   const handleDragEnd = async (event) => {
-    console.log(event)
     const { active, over } = event;
     setActiveItem(null);
     setFromContainer(null);
@@ -89,25 +69,29 @@ const Task = () => {
     newData[toContainer].splice(toIndex, 0, movedItem);
 
     setData(newData);
-    console.log(movedItem);
 
     let status;
-
-    if (toContainer == "container1") {
+    if (toContainer === 'container1') {
       status = 1;
-    } else if (toContainer == "container2") {
+    } else if (toContainer === 'container2') {
       status = 2;
-    } else if (toContainer == "container3") {
+    } else if (toContainer === 'container3') {
       status = 3;
     }
 
-    const requestBody = {
-      status
+    const requestBody = { status };
+    try {
+      const response = await axios.put(`${import.meta.env.VITE_API_URL}/tasks/${movedItem?._id}`, requestBody);
+      console.log('Task updated successfully:', response);
+    } catch (error) {
+      console.error('Error updating task:', error);
     }
+  };
 
-    const response = await axios.put(`${import.meta.env.VITE_API_URL}/tasks/${movedItem?._id}`, requestBody);
-    console.log('Task created successfully:', response);
-
+  const containerNames = {
+    container1: 'To Do',
+    container2: 'Ongoing',
+    container3: 'Completed',
   };
 
   return (
@@ -119,19 +103,21 @@ const Task = () => {
     >
       <div className="App" style={{ display: 'flex', gap: '16px' }}>
         {Object.keys(data).map((containerId) => (
-          <Container
-            key={containerId}
-            id={containerId}
-            items={data[containerId]}
-            activeItem={activeItem}
-            fromContainer={fromContainer}
-            toContainer={toContainer}
-          />
+          <div key={containerId} className='bg-teal-900 rounded-lg'>
+            <h2 className='text-center text-white font-bold text-2xl'>{containerNames[containerId]}</h2>
+            <Container
+              id={containerId}
+              items={data[containerId]}
+              activeItem={activeItem}
+              fromContainer={fromContainer}
+              toContainer={toContainer}
+            />
+          </div>
         ))}
       </div>
       {activeItem && (
         <div style={{ marginTop: '20px' }}>
-          Moving item: {activeItem.title} from {fromContainer} to {toContainer}
+          Moving item: {activeItem.content} from {containerNames[fromContainer]} to {containerNames[toContainer]}
         </div>
       )}
     </DndContext>
